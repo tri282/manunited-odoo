@@ -1,0 +1,12 @@
+<?xml version+"1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem name="Player Ads" id="menu_root_player_ads" web_icon="football_player_ads,static/description/icon.png">
+        <menuitem id="menu_player_ads" name="Ads">
+            <menuitem id="menu_player" name="player" action="football_player_ads.action_player"/>
+        </menuitem>
+        <menuitem id="menu_player_ads_settings" name="Settings">
+            <menuitem id="menu_player_club" name="Player Club" action="football_player_ads.action_player_club"/>
+            <menuitem id="menu_player_position" name="Player Position" action="football_player_ads.action_player_position"/>
+        </menuitem>
+    </menuitem>
+</odoo>
