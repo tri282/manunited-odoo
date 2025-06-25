@@ -11,6 +11,8 @@ class PlayerStat(models.Model):
     status = fields.Selection(
             [('available', 'Available'), ('unavailable', 'Unavailable')],
             string="Status")
+    active = fields.Boolean(string='Active', default=True)
+
 
     # for testing purposes, disregard this field
     partner_id = fields.Many2one('res.partner', string="Partner")

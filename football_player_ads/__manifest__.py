@@ -9,9 +9,9 @@
     "data": [
         'security/ir.model.access.csv',
         'views/player_view.xml',
-        'views/menu_items.xml',
         'views/player_club_view.xml',
         'views/player_position_view.xml',
+        'views/menu_items.xml',
     ],
     "installable": True,
     "application": True,

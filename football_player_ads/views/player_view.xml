@@ -3,11 +3,12 @@
   <data>
 
 
-    <record id="football_player_tree_view" model="ir.ui.view">
-      <field name="name">football.player.tree</field>
+    <record id="football_player_list_view" model="ir.ui.view">
+      <field name="name">football.player.list</field>
       <field name="model">football.player</field>
+      <field name="type">list</field>
       <field name="arch" type="xml">
-        <tree>
+        <list>
           <field name="name"/>
           <field name="club_id"/>
           <field name="position_ids"/>
@@ -15,7 +16,7 @@
           <field name="age"/>
           <field name="market_value"/>
 
-        </tree>
+        </list>
       </field>
     </record>
 
@@ -55,7 +56,7 @@
 
               <page string="Stats">    
                 <field name="stat_ids">
-                  <tree editable="bottom">
+                  <list editable="bottom">
                     <field name="goal"/>
                     <field name="assist"/>
                     <field name="appearance"/>
@@ -64,7 +65,7 @@
                     <field name="status" nolabel="1"/>
                     <field name="partner_id"/>
                     <field name="active"/>
-                  </tree>
+                  </list>
                 </field>
               </page>
 
@@ -84,11 +85,12 @@
     <record id="action_player" model="ir.actions.act_window">
       <field name="name">Player</field>
       <field name="res_model">football.player</field>
-      <field name="view_mode">tree,form</field>
-      <field name="view_id" ref="football_player_tree_view"/>
+      <field name="view_mode">list,form</field>
+      <field name="view_id" ref="football_player_list_view"/>
       <field name="help" type="html">
         <p class="o_view_nocontent_smiling_face">
-          Create a Player to be available on the market
+		Create a Player to be available on the market
+	</p>
       </field>
     </record>      
   </data>

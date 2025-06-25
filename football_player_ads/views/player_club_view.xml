@@ -3,17 +3,13 @@
     <data>
 
 
-        <record id="football_player_club_tree_view" model="ir.ui.view">
-            <field name="name">football.player.club.tree</field>
+        <record id="football_player_club_list_view" model="ir.ui.view">
+            <field name="name">football.player.club.list</field>
             <field name="model">football.player.club</field>
             <field name="arch" type="xml">
-                <tree>
+                <list>
                     <field name="name"/>
-                    <field name="contract_expire"/>
-                    <field name="age"/>
-                    <field name="market_value"/>
-
-                </tree>
+                </list>
             </field>
         </record>
 
@@ -35,8 +31,8 @@
         <record id="action_player_club" model="ir.actions.act_window">
             <field name="name">Player Club</field>
             <field name="res_model">football.player.club</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="football_player_club_tree_view" />
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="football_player_club_list_view" />
         </record>      
     </data>
 </odoo>
