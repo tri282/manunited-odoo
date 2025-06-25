@@ -1,60 +1,96 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <data>
+  <data>
 
 
-        <record id="football_player_tree_view" model="ir.ui.view">
-            <field name="name">football.player.tree</field>
-            <field name="model">football.player</field>
-            <field name="arch" type="xml">
-                <tree>
-                    <field name="name"/>
-                    <field name="club_id"/>
-                    <field name="position_ids"/>
-                    <field name="contract_expire"/>
-                    <field name="age"/>
-                    <field name="market_value"/>
+    <record id="football_player_tree_view" model="ir.ui.view">
+      <field name="name">football.player.tree</field>
+      <field name="model">football.player</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="club_id"/>
+          <field name="position_ids"/>
+          <field name="contract_expire"/>
+          <field name="age"/>
+          <field name="market_value"/>
 
-                </tree>
-            </field>
-        </record>
+        </tree>
+      </field>
+    </record>
 
-        <record id="football_player_form_view" model="ir.ui.view">
-            <field name="name">football.player.form</field>
-            <field name="model">football.player</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <group>
-                            <field name="name"/>
-                            <field name="position_ids" widgets="many2many_tags"/>
-                            <group>
-                                <field name="club_id"/>
-                                <field name="contract_expire"/>
-                                <field name="age"/>
-                            </group>
+    <record id="football_player_form_view" model="ir.ui.view">
+      <field name="name">football.player.form</field>
+      <field name="model">football.player</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="name"/>
+              <field name="position_ids" widgets="many2many_tags"/>
+              <group>
+                <field name="club_id"/>
+                <field name="contract_expire"/>
+                <field name="age"/>
+              </group>
 
-                            <group>
-                                <field name="contract_expire"/>
-                                <field name="age"/>
-                                <field name="market_value"/>
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
+              <group>
+                <field name="contract_expire"/>
+                <field name="age"/>
+                <field name="market_value"/>
+              </group>
+            </group>
+            
+            <notebook>
+              <page string="Description">
+                <group>
+                  <field name="description"/>
+                  <field name="age"/>
+                  <field name="market_value"/>
+                  <field name="contract_expire"/>
+                  <field name="player_type"/>
+                  <field name="suggested_value"/>
+                </group>
+              </page>
+
+              <page string="Stats">    
+                <field name="stat_ids">
+                  <tree editable="bottom">
+                    <field name="goal"/>
+                    <field name="assist"/>
+                    <field name="appearance"/>
+                    <field name="creation_date"/>
+                    <field name="avg_rating"/>
+                    <field name="status" nolabel="1"/>
+                    <field name="partner_id"/>
+                    <field name="active"/>
+                  </tree>
+                </field>
+              </page>
+
+              <page string="Other Info">
+                <group>
+                  <field name="sales_id"/>
+                  <field name="buyer_id"/>
+                </group>
+              </page>
+            </notebook>      
+          </sheet>
+        </form>
+      </field>
+    </record>
 
 
-        <record id="action_player" model="ir.actions.act_window">
-            <field name="name">Player</field>
-            <field name="res_model">football.player</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="football_player_tree_view"/>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    Create a Player to be available on the market
-            </field>
-        </record>      
-    </data>
+    <record id="action_player" model="ir.actions.act_window">
+      <field name="name">Player</field>
+      <field name="res_model">football.player</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="football_player_tree_view"/>
+      <field name="help" type="html">
+        <p class="o_view_nocontent_smiling_face">
+          Create a Player to be available on the market
+      </field>
+    </record>      
+  </data>
 </odoo>
+

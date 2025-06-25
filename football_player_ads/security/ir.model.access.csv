@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_football_player,access_football_player,football_player_ads.model_football_player,base.group_user,1,1,1,1
 access_football_player_club,access_football_player_club,football_player_ads.model_football_player_club,base.group_user,1,1,1,1
 access_football_player_position,access_football_player_position,football_player_ads.model_football_player_position,base.group_user,1,1,1,1
+access_football_player_stat,access_football_player_stat,football_player_ads.model_football_player_stat,base.group_user,1,1,1,1

@@ -5,7 +5,7 @@
         Module to show available players on the summer transfer market
     """,
     "category": "Sales",
-    "depends": [],
+    "depends": ["base"],
     "data": [
         'security/ir.model.access.csv',
         'views/player_view.xml',

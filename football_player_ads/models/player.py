@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields, models, api
 
 class Player(models.Model):
     _name = 'football.player'
@@ -23,6 +23,9 @@ class Player(models.Model):
     # Many players can play many positions
     position_ids = fields.Many2many('football.player.position', string="Player Position")
 
+    # One player can have many stats
+    stat_ids = fields.One2many('football.player.stat', 'player_id', string="Stats")
+
     # Further info
     player_type = fields.Selection([
         ('starter', 'Starter'),
@@ -30,11 +33,37 @@ class Player(models.Model):
         ('reserve', 'Reserve'),
         ('youth', 'Youth')
     ], string ='Player Type')
+    sales_id = fields.Many2one('res.users', string="Salesman")
+    buyer_id = fields.Many2one('res.partner', string="Buyer")
 
-    # Stats
-    goal = fields.Integer(string="Goals per Season")
-    assist = fields.Integer(string="Assist per Season")
-    avg_rating = fields.Float(string="Rating per Game")
+    # Computed fields
+    @api.depends('age', 'player_type', 'market_value')
+    def _compute_suggested_value(self):
+        for rec in self:
+            if rec.age is not None:
+                if rec.age <= 21:
+                    age_factor = 1.2
+                elif 22 <= rec.age <= 28:
+                    age_factor = 1.0
+                elif 29 <= rec.age <= 32:
+                    age_factor = 0.8
+                else:
+                    age_factor = 0.6
+            else:
+                age_factor = 1.0  # fallback if age is missing
+
+            type_multipliers = {
+                'starter': 1.5,
+                'substitute': 1.2,
+                'reserve': 1.0,
+                'youth': 1.1,
+            }
+            type_multiplier = type_multipliers.get(rec.player_type, 1.0)
+
+            rec.suggested_value = (rec.market_value or 0.0) * age_factor * type_multiplier
+
+
+    suggested_value = fields.Float(string="Suggested Value", compute=_compute_suggested_value)
 
     # default hidden fields
     # id, create_date, write_date, create_uid, write_uid
