@@ -1,0 +1,15 @@
+<odoo>
+  <data noupdate="1">
+    <record id="player_club_manchesterunited" model="football.player.club">
+      <field name="name">Manchester United</field>
+    </record>
+    
+    <record id="player_club_becamexbinhduong" model="football.player.club">
+      <field name="name">Becamex Binh Duong</field>
+    </record>
+
+    <record id="player_club_porto" model="football.player.club">
+      <field name="name">Porto</field>
+    </record>
+  </data>
+</odoo>

@@ -1,0 +1,5 @@
+id,goal,assist,appearance,avg_rating,status,active,player_id:external,creation_date
+football.player.stat_messi,30,10,28,7.8,available,True,football.player_messi,2024-08-01
+football.player.stat_ronaldo,25,7,30,7.5,available,True,football.player_ronaldo,2024-08-01
+football.player.stat_kdb,10,20,25,8.1,available,True,football.player_kdb,2024-08-01
+

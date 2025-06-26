@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-	<menuitem name="Player Ads" id="menu_root_player_ads"web_icon="football_player_ads/static/description/icon.png">
+	<menuitem name="Player Ads" id="menu_root_player_ads" web_icon="football_player_ads/static/description/icon.png">
         <menuitem id="menu_player_ads" name="Ads">
             <menuitem id="menu_player" name="player" action="football_player_ads.action_player"/>
         </menuitem>

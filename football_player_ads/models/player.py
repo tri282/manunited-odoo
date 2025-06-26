@@ -24,7 +24,7 @@ class Player(models.Model):
     position_ids = fields.Many2many('football.player.position', string="Player Position")
 
     # One player can have many stats
-    stat_ids = fields.One2many('football.player.stat', 'player_id', string="Stats")
+    stat_ids = fields.One2many('football.player.stat', 'player_id', string="Stat")
 
     # Further info
     player_type = fields.Selection([

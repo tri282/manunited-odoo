@@ -24,7 +24,7 @@ class PlayerStat(models.Model):
     def _compute_personal_rating(self):
         for rec in self:
             goals = rec.goal or 0
-            assists = rec.assist or 0
+            assists = rec.assist or 1
             appearances = rec.appearance or 1  # avoid division by zero
             avg_rating = rec.avg_rating or 0
 
