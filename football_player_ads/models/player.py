@@ -111,3 +111,4 @@ class PlayerPosition(models.Model):
     _description = 'Positions that a player can play'
     
     name = fields.Char(string="Name", required=True)
+    color = fields.Integer(string='Color')

@@ -3,18 +3,46 @@
   <data>
 
     <record id="action_player_view_stats" model="ir.actions.act_window">
+
       <field name="name">Player</field>
       <field name="res_model">football.player.stat</field>
       <field name="view_mode">list,form</field>
       <field name="domain">[('player_id', '=', active_id)]</field>
+
     </record>      
 
     <record id="football_player_list_view" model="ir.ui.view">
+
       <field name="name">football.player.list</field>
       <field name="model">football.player</field>
       <field name="type">list</field>
       <field name="arch" type="xml">
+
         <list>
+
+          <field name="name"/>
+          <field name="club_id"/>
+          <field name="position_ids"/>
+          <field name="contract_expire" widget="remaining_days"/>
+          <field name="age"/>
+          <field name="buyer_id"/>
+          <field name="market_value"/>
+          <field name="state" widget="badge"/>
+
+        </list>
+      </field>
+
+    </record>
+    
+    <record id="football_player_search_view" model="ir.ui.view">
+
+      <field name="name">football.player.search</field>
+      <field name="model">football.player</field>
+      <field name="type">search</field>
+      <field name="arch" type="xml">
+
+        <search>
+
           <field name="name"/>
           <field name="club_id"/>
           <field name="position_ids"/>
@@ -22,31 +50,115 @@
           <field name="age"/>
           <field name="market_value"/>
           <field name="state" widget="badge"/>
+          <filter string="Available" name="active_state" domain="[('active', '=', True)]"/>
+          <separator/>
+          <filter string="Unavailable" name="active_state" domain="[('active', '=', False)]"/>
+          <separator/>
 
-        </list>
+          <group expand="0" string="Group By">
+            <filter string="Status" name="group_by_availability" context="{'group_by': 'active'}"/>
+          </group>
+          <searchpanel>
+            <field name="player_type" icon="fa-filter" groupby="group_by_player_type" limit="0"/>
+            <!--Only for categorical variable, e.g. selection -->
+          </searchpanel>
+        </search>
+
       </field>
+
     </record>
 
-    <record id="football_player_form_view" model="ir.ui.view">
+    <record id="football_player_kanban_view" model="ir.ui.view">
+
+      <field name="name">football.player.kanban</field>
+      <field name="model">football.player</field>
+      <field name="arch" type="xml">
+
+        <kanban default_group_by="player_type" on_create="quick_create" quick_create_view="football_player_ads.quick_create_football_player_form_view">
+
+          <field name="name"/>
+          <field name="club_id"/>
+          <field name="position_ids"/>
+          <field name="contract_expire" widget="remaining_days"/>
+          <field name="age"/>
+          <field name="market_value"/>
+
+          <templates>
+
+            <t t-name="kanban-box">
+
+              <div class="oe_kanban_details">
+
+                <strong class="o_kanban_record_title">
+                  <field name="name"/>
+                </strong>
+
+                <div class="o_kanban_tags_section">
+                  <field name="position_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                </div>
+
+                <div class="o_kanban_record_bottom">
+                  <div class="oe_kanban_bottom_left">
+                    <field name="stat_count"/> Stat Count(s)
+                  </div>
+                </div>
+
+              </div>
+
+            </t>  
+
+          </templates>
+
+        </kanban>
+
+      </field>
+
+    </record>
+    
+    <record id="quick_create_football_player_form_view" model="ir.ui.view">
+
       <field name="name">football.player.form</field>
       <field name="model">football.player</field>
       <field name="arch" type="xml">
         <form>
+          <group>
+            <field name="name"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record id="football_player_form_view" model="ir.ui.view">
+
+      <field name="name">football.player.form</field>
+      <field name="model">football.player</field>
+      <field name="arch" type="xml">
+        <form>
+
           <header>
+
             <button name="action_talent" type="object" string="Talent" class="btn btn-primary"/>
             <button name="action_experience" type="object" string="Experience" class="btn btn-danger"/>
             <button name="action_star" type="object" string="Star" class="btn btn-danger"/>
             <field name="state" widget="statusbar"/> <!-- Can add statusbar_visible="star, talent" to hide the other fields -->
+
           </header>
+
           <sheet>
+
             <div class="oe_button_box" name="button_box">
+
               <button class="oe_stat_button" name="action_player_view_stats" object="object">
-                <field name="stat_count" string="Stats" widget="statinfo"/>
+                <field name="stat_count" string="Stat Count" widget="statinfo"/>
               </button>
+
             </div>
+
             <group>
+
               <field name="name" widget="char_emojis" placeholder="Player Name"/>
               <field name="position_ids" widgets="many2many_tags"/>
+            
               <group>
                 <field name="state" widget="selection_badge"/>
                 <field name="club_id"/>
@@ -57,12 +169,15 @@
               <group>
                 <field name="contract_expire"/>
                 <field name="age"/>
-                <field name="market_value"/>
+                <field name="market_value"/>              
               </group>
+
             </group>
             
             <notebook>
+
               <page string="Description">
+
                 <group>
                   <field name="description"/>
                   <field name="age"/>
@@ -71,10 +186,13 @@
                   <field name="player_type" widget="radio"/>
                   <field name="suggested_value"/>
                 </group>
+
               </page>
 
-              <page string="Stats">    
+              <page string="Stats"> 
+
                 <field name="stat_ids">
+
                   <list editable="bottom">
                     <field name="goal"/>
                     <field name="assist"/>
@@ -85,34 +203,46 @@
                     <field name="partner_id"/>
                     <field name="active" widget="boolean_toggle"/>
                   </list>
+
                 </field>
+
               </page>
 
               <page string="Other Info">
+
                 <group>
                   <field name="sales_id" widget="many2one_avatar_user"/>
                   <field name="buyer_id"/>
                   <field name="phone" widget="email"/>
-                </group>:wa
+                </group>
+
               </page>
+
             </notebook>      
+            
           </sheet>
+
         </form>
+
       </field>
+
     </record>
 
 
     <record id="action_player" model="ir.actions.act_window">
+
       <field name="name">Player</field>
       <field name="res_model">football.player</field>
-      <field name="view_mode">list,form</field>
+      <field name="view_mode">list,kanban,form</field>
       <field name="view_id" ref="football_player_list_view"/>
+
       <field name="help" type="html">
         <p class="o_view_nocontent_smiling_face">
 		      Create a Player to be available on the market
 	      </p>
       </field>
     </record>      
-  </data>
-</odoo>
 
+  </data>
+
+</odoo>
