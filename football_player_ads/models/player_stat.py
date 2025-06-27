@@ -2,9 +2,16 @@ from odoo import fields, models, api
 from datetime import timedelta
 from odoo.exceptions import ValidationError
 
+class AbstractStat(models.AbstractModel):
+    _name = 'abstract.model.stat'
+
+    partner_email = fields.Char(string="Email")
+    partner_phone = fields.Char(string="Phone Number")
+
 class PlayerStat(models.Model):
     _name = 'football.player.stat'
     _description = 'Football Players Stat available'
+    _inherit = ['abstract.model.stat']
 
     name = fields.Char(string="Name")
     goal = fields.Integer(string="Goal")
@@ -155,3 +162,5 @@ class PlayerStat(models.Model):
            ('name', '=', vals_list.get('name')),
            )]).filter(lambda x: x.phone == '123-456-7890')
     '''
+
+

@@ -18,9 +18,10 @@
           <field name="name"/>
           <field name="club_id"/>
           <field name="position_ids"/>
-          <field name="contract_expire"/>
+          <field name="contract_expire" widget="remaining_days"/>
           <field name="age"/>
           <field name="market_value"/>
+          <field name="state" widget="badge"/>
 
         </list>
       </field>
@@ -44,10 +45,10 @@
               </button>
             </div>
             <group>
-              <field name="name"/>
+              <field name="name" widget="char_emojis" placeholder="Player Name"/>
               <field name="position_ids" widgets="many2many_tags"/>
               <group>
-                <field name="state"/>
+                <field name="state" widget="selection_badge"/>
                 <field name="club_id"/>
                 <field name="contract_expire"/>
                 <field name="age"/>
@@ -67,7 +68,7 @@
                   <field name="age"/>
                   <field name="market_value"/>
                   <field name="contract_expire"/>
-                  <field name="player_type"/>
+                  <field name="player_type" widget="radio"/>
                   <field name="suggested_value"/>
                 </group>
               </page>
@@ -82,17 +83,17 @@
                     <field name="avg_rating"/>
                     <field name="status" nolabel="1"/>
                     <field name="partner_id"/>
-                    <field name="active"/>
+                    <field name="active" widget="boolean_toggle"/>
                   </list>
                 </field>
               </page>
 
               <page string="Other Info">
                 <group>
-                  <field name="sales_id"/>
+                  <field name="sales_id" widget="many2one_avatar_user"/>
                   <field name="buyer_id"/>
-                  <field name="phone"/>
-                </group>
+                  <field name="phone" widget="email"/>
+                </group>:wa
               </page>
             </notebook>      
           </sheet>

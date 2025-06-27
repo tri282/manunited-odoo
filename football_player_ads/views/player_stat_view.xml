@@ -37,6 +37,8 @@
                           <field name="avg_rating"/>
                           <field name="personal_rating"/>
                           <field name="creation_date"/>
+                          <field name="partner_phone"/>
+                          <field name="partner_email"/>
                         </group>
                       </group>
                     </sheet>
