@@ -34,7 +34,8 @@ class Player(models.Model):
         ('youth', 'Youth')
     ], string ='Player Type')
     sales_id = fields.Many2one('res.users', string="Salesman")
-    buyer_id = fields.Many2one('res.partner', string="Buyer")
+    buyer_id = fields.Many2one('res.partner', string="Buyer", domain=[('is_company', '=', True)])
+    phone = fields.Char(string="Phone", related='buyer_id.phone')
 
     # Computed fields
     @api.depends('age', 'player_type', 'market_value')
@@ -64,6 +65,35 @@ class Player(models.Model):
 
 
     suggested_value = fields.Float(string="Suggested Value", compute=_compute_suggested_value)
+
+    state = fields.Selection([
+        ('talent', 'Talent'), ('experience', 'Experience'), ('star', 'Star')
+    ], default='star', string="Status")
+
+    def action_talent(self):
+        self.state = 'talent'
+    
+    def action_experience(self):
+        self.state = 'experience'
+    
+    def action_star(self):
+        self.state = 'star'
+
+    @api.depends('stat_ids')
+    def _compute_stat_count(self):
+        for rec in self:
+            rec.stat_count = len(rec.stat_ids)
+
+    stat_count = fields.Integer(string="Stat Count", compute=_compute_stat_count)
+
+    def football_player_view_offers(self):
+        return {
+                'type': 'ir.actions.act_window',
+                'name': f"{self.name} - Stats",
+                'domain': [('player_id', '=', self.id)],
+                'view_mode': 'list',
+                'res_model': 'football.player.stat',
+        }
 
     # default hidden fields
     # id, create_date, write_date, create_uid, write_uid

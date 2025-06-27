@@ -7,6 +7,7 @@
         <menuitem id="menu_player_ads_settings" name="Settings">
             <menuitem id="menu_player_club" name="Player Club" action="football_player_ads.action_player_club"/>
             <menuitem id="menu_player_position" name="Player Position" action="football_player_ads.action_player_position"/>
+            <menuitem id="menu_player_stat" name="Player Stat" action="football_player_ads.action_player_stat"/>
         </menuitem>
     </menuitem>
 </odoo>

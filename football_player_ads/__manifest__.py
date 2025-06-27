@@ -11,6 +11,7 @@
         'views/player_view.xml',
         'views/player_club_view.xml',
         'views/player_position_view.xml',
+        'views/player_stat_view.xml',
         'views/menu_items.xml',
 
         # Data Files
