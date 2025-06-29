@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <record id="module_category_football_player" model="ir.module.category">
+    <field name="name">Football Player</field>
+    <field name="description">Handles players and their stats</field>
+    <field name="sequence">50</field>
+  </record>
+
+  <record id="group_player_user" model="res.groups">
+    <field name="name">Football Player User</field>
+    <field name="category_id" ref="football_player_ads.module_category_football_player"/>
+    <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+
+    <!-- 
+    Assign this user to a demo role, careful with this command
+    <field name="users" eval="[Command.link(ref('base.user_demo'))]"/>
+    -->
+  </record>
+
+  <record id="group_player_manager" model="res.groups">
+    <field name="name">Football Player Manager</field>
+    <field name="category_id" ref="football_player_ads.module_category_football_player"/>
+    <field name="implied_ids" eval="[(4, ref('football_player_ads.group_player_user'))]"/>
+    
+    <!--
+    <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    -->
+  
+  </record>
+  
+  <record id="group_player_test" model="res.groups">
+    <field name="name">Football Player Manager</field>
+    <field name="implied_ids" eval="[(4, ref('football_player_ads.group_player_user'))]"/>
+  </record>
+
+</odoo>

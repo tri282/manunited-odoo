@@ -1,0 +1,31 @@
+<odoo>
+  
+  <data>
+
+    <!-- users cannot see the player model, unless it is assigned to them -->
+    <record id="player_rule_for_users" model="ir.rule">
+      <field name="name">Player Rule for User</field>
+      <field name="model_id" ref="football_player_ads.model_football_player"/>
+      <field name="domain_force">[('sales_id', '=', user.id)]</field>
+      <field name="groups" eval="[(4, ref('football_player_ads.group_player_user'))]"/>
+      <field name="perm_unlink" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_create" eval="False"/>
+    </record>
+
+    <!-- admin can -->
+    <record id="player_rule_for_manager" model="ir.rule">
+      <field name="name">Player Rule for User</field>
+      <field name="model_id" ref="football_player_ads.model_football_player"/>
+      <field name="domain_force">[(1, '=', 1)]</field>
+      <field name="groups" eval="[(4, ref('football_player_ads.group_player_manager'))]"/>
+      <field name="perm_unlink" eval="True"/>
+      <field name="perm_write" eval="True"/>
+      <field name="perm_read" eval="True"/>
+      <field name="perm_create" eval="True"/>
+    </record>
+  </data>
+
+
+</odoo>

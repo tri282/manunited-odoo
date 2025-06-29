@@ -1,0 +1,29 @@
+<odoo>
+  <data>
+  
+    <record id="football_player_ads.access_football_player_club" model="ir.model.access">
+      <field name="group_id" ref="football_player_ads.group_player_manager"/>
+    </record>
+  
+    <record id="football_player_ads.access_football_player_stat" model="ir.model.access">
+      <field name="group_id" ref="football_player_ads.group_player_manager"/>
+    </record>
+  
+    <!-- Make user ronly for stat -->
+    <record id="access_football_player_stat" model="ir.model.access">
+      <field name="name">Player stat access for user</field>
+      <field name="model_id" ref="football_player_ads.model_football_player_stat"/>
+      <field name="group_id" ref="football_player_ads.group_player_user"/>
+      <field name="perm_read">1</field>
+      <field name="perm_create">0</field>
+      <field name="perm_write">0</field>
+      <field name="perm_unlink">0</field>
+    </record>
+  
+    <record id="football_player_ads.access_football_player_position" model="ir.model.access">
+      <field name="group_id" ref="football_player_ads.group_player_user"/>
+    </record>
+
+  </data>
+</odoo>
+

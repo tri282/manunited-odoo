@@ -8,6 +8,8 @@
             <menuitem id="menu_player_club" name="Player Club" action="football_player_ads.action_player_club"/>
             <menuitem id="menu_player_position" name="Player Position" action="football_player_ads.action_player_position"/>
             <menuitem id="menu_player_stat" name="Player Stat" action="football_player_ads.action_player_stat"/>
+              <!-- can add an extra param: groups="football_player_ads.group_player_<rolename>
+              to make fields visible for certain groups--> 
         </menuitem>
     </menuitem>
 </odoo>

@@ -34,6 +34,43 @@
 
     </record>
     
+    <record id="football_player_pivot_view" model="ir.ui.view">
+
+      <field name="name">football.player.pivot</field>
+      <field name="model">football.player</field>
+      <field name="type">pivot</field>
+      <field name="arch" type="xml">
+
+        <!--
+        Three type of pivot's fields: row, measure, and column
+        -->
+        <pivot>
+          <field name="name" type="row"/>
+          <field name="market_value" type="measure"/>
+          <field name="state" type="col"/>
+        </pivot>
+
+      </field>
+
+    </record>
+
+    <record id="football_player_graph_view" model="ir.ui.view">
+
+      <field name="name">football.player.graph</field>
+      <field name="model">football.player</field>
+      <field name="type">graph</field>
+      <field name="arch" type="xml">
+
+        <graph>
+          <field name="name"/>
+          <field name="market_value" type="measure"/>
+        </graph>
+
+      </field>
+
+    </record>
+
+    
     <record id="football_player_search_view" model="ir.ui.view">
 
       <field name="name">football.player.search</field>
@@ -74,7 +111,7 @@
       <field name="model">football.player</field>
       <field name="arch" type="xml">
 
-        <kanban default_group_by="player_type" on_create="quick_create" quick_create_view="football_player_ads.quick_create_football_player_form_view">
+        <kanban default_group_by="player_type" on_create="edit" quick_create_view="football_player_ads.quick_create_football_player_form_view">
 
           <field name="name"/>
           <field name="club_id"/>
@@ -120,19 +157,64 @@
       <field name="name">football.player.form</field>
       <field name="model">football.player</field>
       <field name="arch" type="xml">
+        
         <form>
+
           <group>
             <field name="name"/>
           </group>
+        
         </form>
+      
+      </field>
+    
+    </record>
+    
+    <!--
+    # This may only applicable for odoo 15 or prior, odoo 18 requires slightly different syntax
+    <record id="football_player_calendar_view" model="ir.ui.view">
+
+      <field name="name">football.player.calendar</field>
+      <field name="model">football.player</field>
+      <field name="arch" type="xml">
+
+        <calendar date_start="contract_expire" string="Players" mode="month" event_open_pop="true" quick_add="false">
+
+          <field name="name"/> 
+          <field name="club_id"/> 
+          <field name="contract_expire"/> 
+
+        </calendar>
+
+      </field>
+
+      </record>
+    -->
+    <record id="football_player_calendar_view" model="ir.ui.view">
+      <field name="name">football.player.calendar</field>
+      <field name="model">football.player</field>
+      <field name="arch" type="xml">
+        <calendar
+          date_start="contract_expire"
+          string="Players"
+          color="club_id"
+          quick_create="false"
+          mode="month"
+        >
+          <field name="club_id"/>
+          <field name="contract_expire"/>
+          <field name="name"/>
+       </calendar>
       </field>
     </record>
+
 
     <record id="football_player_form_view" model="ir.ui.view">
 
       <field name="name">football.player.form</field>
       <field name="model">football.player</field>
       <field name="arch" type="xml">
+
         <form>
 
           <header>
@@ -198,6 +280,7 @@
                     <field name="assist"/>
                     <field name="appearance"/>
                     <field name="creation_date"/>
+                    <field name="deadline"/>
                     <field name="avg_rating"/>
                     <field name="status" nolabel="1"/>
                     <field name="partner_id"/>
@@ -233,7 +316,7 @@
 
       <field name="name">Player</field>
       <field name="res_model">football.player</field>
-      <field name="view_mode">list,kanban,form</field>
+      <field name="view_mode">list,pivot,graph,calendar,kanban,form</field>
       <field name="view_id" ref="football_player_list_view"/>
 
       <field name="help" type="html">

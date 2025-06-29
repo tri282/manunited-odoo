@@ -39,6 +39,7 @@ class PlayerStat(models.Model):
     '''
 
     creation_date = fields.Date(string="Create Date")
+    deadline = fields.Date(string="Deadline")
 
     '''
     # AUTOVACUUM
@@ -58,6 +59,9 @@ class PlayerStat(models.Model):
             # Set creation date if not provided
             if not rec.get('creation_date'):
                 rec['creation_date'] = fields.Date.today()
+            
+            if not rec.get('deadline'):
+                rec['deadline'] = fields.Date.today()
            
             # IMPORTANT
             # There is distinction between:
