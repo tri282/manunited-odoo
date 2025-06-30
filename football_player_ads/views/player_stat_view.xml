@@ -12,6 +12,7 @@
           <field name="goal"/>
           <field name="assist"/>
           <field name="appearance"/>
+          <field name="validity"/>
           <field name="avg_rating"/>
           <field name="personal_rating"/>
           <field name="creation_date"/>

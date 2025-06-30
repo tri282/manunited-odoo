@@ -1,0 +1,27 @@
+<odoo>
+  <template id="player_list" name="Player">
+    <t t-call="website.layout">
+      <div class="oe_structure">
+        <div class="container">
+          <h3>Available Players</h3>
+        </div>
+        <table class="table-striped table">
+          <thead>
+            <tr>
+              <th>Player Name</th>
+              <th>Market Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <t t-foreach="player_ids" t-as="player">
+              <tr>
+                <th><span t-esc="player.name"/></th>
+                <th><span t-esc="player.expected_price"/></th>
+              </tr>
+            </t>
+          </tbody>
+        </table>
+      </div>
+    </t>
+  </template>
+</odoo>

@@ -17,6 +17,7 @@ class PlayerStat(models.Model):
     goal = fields.Integer(string="Goal")
     assist = fields.Integer(string="Assist")
     appearance = fields.Integer(string="Appearance")
+    validity = fields.Integer(string="Validity")
     avg_rating = fields.Float(string="Average Rating")
     status = fields.Selection(
             [('available', 'Available'), ('unavailable', 'Unavailable')],
@@ -78,6 +79,9 @@ class PlayerStat(models.Model):
             if not rec.get('appearance'):
                 rec['appearance'] = 0
             
+            if not rec.get('validity'):
+                rec['validity'] = 0
+            
             if not rec.get('avg_rating'):
                 rec['avg_rating'] = 0
 
@@ -102,6 +106,7 @@ class PlayerStat(models.Model):
         # consider reinstall the module for it to work
         ('check_assist', 'CHECK(assist >= 0)', 'Assist must not be less than 0'),
         ('check_appearance', 'CHECK(appearance >= 0)', 'Appearance must not be less than 0'),
+        ('check_appearance', 'CHECK(validity >= 0)', 'Validity must not be less than 0'),
         ('check_avg_rating', 'CHECK(avg_rating >= 0 AND avg_rating <= 10)', 'Average rating must be between 0 and 10')
     ]
 
@@ -123,6 +128,24 @@ class PlayerStat(models.Model):
             ) + avg_rating
 
     personal_rating = fields.Float(string="Personal Rating", compute="_compute_personal_rating")
+
+    def extend_stat_deadline(self):
+        activ_ids = self._context.get('active_ids', [])
+
+        if activ_ids:
+            stat_ids = self.env['football.player.stat'].browse(activ_ids)
+
+            for stat in stat_ids:
+                stat.validity = 10
+
+    # needs to be defined as api model for a cron job
+    @api.model
+    def _extend_stat_deadline(self):
+        stat_ids = self.env['football.player.stat'].search([]) # cron job active for all stats
+        
+        for stat in stat_ids:
+            stat.validity = stat.validity + 1
+
 
     # WRITE orm command
     '''

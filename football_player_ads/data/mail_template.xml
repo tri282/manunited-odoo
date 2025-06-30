@@ -1,0 +1,17 @@
+<data noupdate="1">
+  <record id="stat_mail_template" model="mail.template">
+    <field name="name">Player Information</field>
+    <field name="email_from">test@qa.team</field>
+    <field name="email_to">test@example.com</field>
+    <field name="model_id" ref="football_player_ads.model_football_player"/>
+    <field name="auto_delete" eval="True"/>
+    <field name="subject">New Info on ${object.name}</field>
+    <field name="body_html" type="html">
+      <![CDATA[
+        <p>Hello World,</p>
+        <p>This player is now Hello World.</p>
+      ]]>
+    </field>
+  </record>
+</data>
+

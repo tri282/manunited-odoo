@@ -26,7 +26,7 @@
           <field name="contract_expire" widget="remaining_days"/>
           <field name="age"/>
           <field name="buyer_id"/>
-          <field name="market_value"/>
+          <field name="market_value" widget="monetary"/>
           <field name="state" widget="badge"/>
 
         </list>
@@ -46,7 +46,8 @@
         -->
         <pivot>
           <field name="name" type="row"/>
-          <field name="market_value" type="measure"/>
+          <field name="market_value" type="measure" widget="monetary"/>
+          <field name="currency_id" invisible="True"/>
           <field name="state" type="col"/>
         </pivot>
 
@@ -63,7 +64,8 @@
 
         <graph>
           <field name="name"/>
-          <field name="market_value" type="measure"/>
+          <field name="market_value" type="measure" widget="monetary"/>
+          <field name="currency_id" invisible="True"/>
         </graph>
 
       </field>
@@ -85,7 +87,8 @@
           <field name="position_ids"/>
           <field name="contract_expire" widget="remaining_days"/>
           <field name="age"/>
-          <field name="market_value"/>
+          <field name="market_value" widget="monetary"/>
+          <field name="currency_id" invisible="True"/>
           <field name="state" widget="badge"/>
           <filter string="Available" name="active_state" domain="[('active', '=', True)]"/>
           <separator/>
@@ -111,14 +114,15 @@
       <field name="model">football.player</field>
       <field name="arch" type="xml">
 
-        <kanban default_group_by="player_type" on_create="edit" quick_create_view="football_player_ads.quick_create_football_player_form_view">
-
+        <kanban on_create="edit" quick_create_view="football_player_ads.quick_create_football_player_form_view">
+        <!-- make editable by removing default_group_by param -->
           <field name="name"/>
           <field name="club_id"/>
           <field name="position_ids"/>
           <field name="contract_expire" widget="remaining_days"/>
           <field name="age"/>
-          <field name="market_value"/>
+          <field name="market_value" widget="monetary"/>
+          <field name="currency_id" invisible="True"/>
 
           <templates>
 
@@ -156,6 +160,7 @@
 
       <field name="name">football.player.form</field>
       <field name="model">football.player</field>
+      <field name="priority">1000</field>
       <field name="arch" type="xml">
         
         <form>
@@ -215,13 +220,14 @@
       <field name="model">football.player</field>
       <field name="arch" type="xml">
 
-        <form>
+        <form string="Player" chatter="mail.thread">
 
           <header>
 
             <button name="action_talent" type="object" string="Talent" class="btn btn-primary"/>
             <button name="action_experience" type="object" string="Experience" class="btn btn-danger"/>
             <button name="action_star" type="object" string="Star" class="btn btn-danger"/>
+            <button name="action_send_email" type="object" string="Send Email" class="btn btn-danger"/>
             <field name="state" widget="statusbar"/> <!-- Can add statusbar_visible="star, talent" to hide the other fields -->
 
           </header>
@@ -229,10 +235,23 @@
           <sheet>
 
             <div class="oe_button_box" name="button_box">
-
-              <button class="oe_stat_button" name="action_player_view_stats" object="object">
-                <field name="stat_count" string="Stat Count" widget="statinfo"/>
-              </button>
+              
+              <!--
+              <button name="action_player_view_stats"
+                string="Stat Count"
+                type="object"
+                class="oe_stat_button"/>
+              -->
+              
+              <button name="action_client_action"
+                string="Client Test"
+                type="object"
+                class="oe_stat_button"/>
+              
+              <button name="action_url_action"
+                string="Big Red Button"
+                type="object"
+                class="oe_stat_button"/>
 
             </div>
 
@@ -251,7 +270,8 @@
               <group>
                 <field name="contract_expire"/>
                 <field name="age"/>
-                <field name="market_value"/>              
+                <field name="market_value" widget="monetary"/>   
+                <field name="currency_id" invisible="True"/>
               </group>
 
             </group>
@@ -263,8 +283,9 @@
                 <group>
                   <field name="description"/>
                   <field name="age"/>
-                  <field name="market_value"/>
+                  <field name="market_value" widget="monetary"/>
                   <field name="contract_expire"/>
+                  <field name="currency_id" invisible="True"/>
                   <field name="player_type" widget="radio"/>
                   <field name="suggested_value"/>
                 </group>
@@ -279,6 +300,7 @@
                     <field name="goal"/>
                     <field name="assist"/>
                     <field name="appearance"/>
+                    <field name="validity"/>
                     <field name="creation_date"/>
                     <field name="deadline"/>
                     <field name="avg_rating"/>
@@ -295,6 +317,9 @@
 
                 <group>
                   <field name="sales_id" widget="many2one_avatar_user"/>
+                  <!--<field name="campaign_id"/>
+                  <field name="source_id">
+                  <field name="medium_id"/> -->
                   <field name="buyer_id"/>
                   <field name="phone" widget="email"/>
                 </group>
@@ -304,6 +329,12 @@
             </notebook>      
             
           </sheet>
+          
+          <!-- <div class="oe_chatter">
+            <field name="message_follower_ids" widget="mail_followers"/>
+            <field name="activity_ids" widget="mail_activity"/>
+            <field name="message_ids" widget="mail_threads"/>
+          </div> -->
 
         </form>
 
@@ -324,7 +355,43 @@
 		      Create a Player to be available on the market
 	      </p>
       </field>
-    </record>      
+    </record>     
+
+    <record id="action_custom_client_action" model="ir.actions.client">
+
+      <field name="name">Custom Client action</field>
+      <field name="tag">custom_client_action</field>
+
+    </record>    
+
+    <record id="action_extend_stat_deadline" model="ir.actions.server">
+
+      <field name="name">Extend Deadline</field>
+      <field name="model_id" ref="football_player_ads.model_football_player_stat"/>
+      <field name="state">code</field>
+      <field name="binding_model_id" ref="football_player_ads.model_football_player_stat"/>
+      <field name="binding_view_types">list,form</field>
+      <field name="code">
+        action = model.extend_stat_deadline()
+      </field>
+    </record>    
+
+    <!-- Probably syntax errors
+    <record id="ir_cron_extend_stat_deadline" model="ir.cron">
+      <field name="name">Stat: Extend Stat Daily</field>
+      <field name="model_id" ref="football_player_ads.model_football_player_stat"/>
+      <field name="state">code</field>
+      <field name="code">model._extend_stat_deadline()</field>
+      <field name="interval_number">4</field>
+      <field name="interval_type">days</field>
+      <field name="numbercall">-1</field>
+      <field name="active" eval="True"/>
+    </record>
+    -->
+
+    <!-- <field name="active" eval="False"/> currently deactivated
+    <field name="doall" eval=""/> if there is an issue with running the cron job (e.g. server restart), then run this again -->
+
 
   </data>
 

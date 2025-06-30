@@ -1,7 +1,8 @@
-from odoo import fields, models, api
+from odoo import fields, models, api, _
 
 class Player(models.Model):
     _name = 'football.player'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Football Players on the Market'
 
     # Basic info
@@ -9,9 +10,11 @@ class Player(models.Model):
     description = fields.Text(string="Description")
     # may change to many2one: club = fields.Char(string="Club")
     age = fields.Integer(string="Age")
-    market_value = fields.Float(string="Market Value")
+    market_value = fields.Monetary(string="Market Value", tracking=True)
     contract_expire = fields.Date(string="Contract Expire")
     active = fields.Boolean(string="is Active", default=True)
+    currency_id = fields.Many2one("res.currency", string="Currency",
+                                    default=lambda self: self.env.user.company_id.currency_id)
 
     # Since there can be way too many clubs in football nowadays
     # its best not make it a selection field
@@ -95,8 +98,34 @@ class Player(models.Model):
                 'res_model': 'football.player.stat',
         }
 
+    def action_client_action(self):
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification', # modify this for other actions (refresh, goto pages, etc)
+            'params': {
+                'title': _('Testing Client'),
+                'type': 'success',
+                'sticky': False
+            }
+        }
+
     # default hidden fields
     # id, create_date, write_date, create_uid, write_uid
+
+    def action_url_action(self):
+        return {
+            'type': 'ir.actions.act_url',
+            'url': 'https://youtu.be/10dJEJEisaE?feature=shared',
+            'target': 'new' # opens in new page, can set self of rcurrent page
+        }
+
+    def _get_report_base_filename(self):
+        self.ensure_one() # prevent multiple records set
+        return 'Football Player - %s' % self.name
+
+    def action_send_email(self):
+        mail_template = self.env.ref('football_player_ads.stat_mail_template')
+        mail_template.send_mail(self.id, force_send=True)
 
 
 class PlayerClub(models.Model):
